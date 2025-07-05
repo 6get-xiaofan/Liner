@@ -11,7 +11,7 @@
                     <!-- <MenubarShortcut>⌘/Ctrl+Shift+N</MenubarShortcut> -->
                 </MenubarItem>
                 <MenubarSeparator />
-                <MenubarItem>{{ $t('app.topbar.file.open') }}</MenubarItem>
+                <MenubarItem @click="router.push('/editor')">{{ $t('app.topbar.file.open') }}</MenubarItem>
                 <MenubarItem>{{ $t('app.topbar.file.folder') }}</MenubarItem>
                 <MenubarItem>{{ $t('app.topbar.file.recent') }}</MenubarItem>
                 <MenubarSeparator />
@@ -84,4 +84,8 @@ import {
     MenubarSubContent,
     MenubarSubTrigger
 } from '@/components/ui/menubar'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 </script>

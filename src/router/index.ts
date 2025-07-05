@@ -7,6 +7,11 @@ const routes = [
         component: () => import('@/views/WorkSpaceView.vue')
     },
     {
+        path: '/editor',
+        name: 'Editor',
+        component: () => import('@/components/AppEditor.vue')
+    },
+    {
         path: '/single',
         name: 'Single',
         component: () => import('@/views/SingleView.vue')

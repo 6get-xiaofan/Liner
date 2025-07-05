@@ -8,6 +8,7 @@ export const containerClass = 'w-full h-full'
 <script setup lang="ts">
 import AppSidebar from '@/components/AppSidebar.vue'
 import { Separator } from '@/components/ui/separator'
+import { RouterView, useRouter } from 'vue-router'
 import SidebarHeaderMeun from '@/components/SidebarHeaderMeun.vue'
 import {
     SidebarInset,
@@ -26,6 +27,9 @@ import {
 
 import { useMagicKeys } from '@vueuse/core'
 import { ref, watch } from 'vue'
+import AppEditor from '@/components/AppEditor.vue'
+
+const router = useRouter()
 
 const props = defineProps<{
     open: boolean
@@ -65,8 +69,9 @@ watch(CmdJ, (v) => {
                     </div>
                     <div id="drag-region" data-tauri-drag-region class="flex-1"></div>
                 </header>
-                <div class="flex flex-1 flex-col gap-4 p-4 pt-0 w-full">
-
+                <div class="w-full h-full overflow-auto">
+                    <!-- <RouterView /> -->
+                     <AppEditor />
                 </div>
             </SidebarInset>
         </SidebarProvider>

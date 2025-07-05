@@ -5,6 +5,7 @@ import { createI18n } from 'vue-i18n'
 import App from "./App.vue"
 
 import '@/assets/index.css'
+import '@/assets/font.css'
 
 import zhCn from '@/i18n/zh-cn'
 import enUs from '@/i18n/en-us'

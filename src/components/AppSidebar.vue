@@ -2,7 +2,7 @@
 import type { SidebarProps } from '@/components/ui/sidebar'
 import { useRouter } from 'vue-router';
 const router = useRouter();
-
+import logo from '@/assets/icon.png'
 import {
     AudioWaveform,
     BookOpen,
@@ -41,9 +41,9 @@ const data = {
     },
     teams: [
         {
-            name: 'Acme Inc',
+            name: 'Demo',
             logo: GalleryVerticalEnd,
-            plan: 'Enterprise',
+            plan: 'D:\\Documents\\Demo',
         },
         {
             name: 'Acme Corp.',
@@ -58,29 +58,27 @@ const data = {
     ],
     navMain: [
         {
-            title: 'Playground',
+            title: 'Folder1',
             url: '#',
-            icon: SquareTerminal,
             isActive: true,
             items: [
                 {
-                    title: 'History',
+                    title: 'Demo.md',
                     url: '#',
                 },
                 {
-                    title: 'Starred',
+                    title: 'Demo2.md',
                     url: '#',
                 },
                 {
-                    title: 'Settings',
+                    title: 'Demo3.md',
                     url: '#',
                 },
             ],
         },
         {
-            title: 'Models',
+            title: 'Folder2',
             url: '#',
-            icon: Bot,
             items: [
                 {
                     title: 'Genesis',
@@ -97,9 +95,8 @@ const data = {
             ],
         },
         {
-            title: 'Documentation',
+            title: 'Folder3',
             url: '#',
-            icon: BookOpen,
             items: [
                 {
                     title: 'Introduction',
@@ -120,9 +117,8 @@ const data = {
             ],
         },
         {
-            title: 'Settings',
+            title: 'Folder4',
             url: '#',
-            icon: Settings2,
             items: [
                 {
                     title: 'General',
@@ -177,7 +173,12 @@ const props = withDefaults(defineProps<SidebarProps>(), {
             <NavMain :items="data.navMain" />
         </SidebarContent>
         <SidebarFooter>
-
+            <div class="flex flex-row justify-center">
+                <img :src="logo" alt="logo" class="size-15">
+                <h1 class="text-xl font-bold font-['MapleMonoNL']">Liner.</h1>
+            </div>
+            <pre class="text-[12px] text-gray-500 text-center">0.4.6-alpha-sha.gd90d9f8</pre>
+            <p class="text-[12px] text-gray-500 text-center">© 2025 Gabriel Ryder. All rights reserved.</p>
         </SidebarFooter>
         <SidebarRail />
     </Sidebar>
