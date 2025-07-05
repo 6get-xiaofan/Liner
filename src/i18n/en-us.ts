@@ -8,11 +8,18 @@ export default {
                 open: 'Open File...',
                 folder: 'Open Folder...',
                 recent: 'Open Recent',
-                auto: 'Auto Save',
                 preference: 'Preference',
-                closeFloder: 'Close Folder',
+                closeFolder: 'Close Folder',
                 closeWindow: 'Close Window',
                 exit: 'Exit',
+                export: {
+                    default: 'Export',
+                    format1: 'PNG',
+                    format2: 'JPEG',
+                    format3: 'PDF',
+                    format4: 'HTML (Not Style)'
+                },
+                print: 'Print'
             },
             edit: {
                 default: 'Edit',

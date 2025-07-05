@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import AppTopbar from '@/components/AppTopbar.vue'
 import { RouterView } from 'vue-router'
 import { Toaster } from './components/ui/sonner'
-import AppTopbar from '@/components/AppTopbar.vue'
 </script>
 
 <template>
+  <AppTopbar class="fixed top-0 right-0 z-50" />
   <main class="container h-screen w-screen">
-    <AppTopbar class="h-8" />
-    <RouterView class="h-full" />
+    <RouterView class="h-full w-screen" />
     <Toaster />
   </main>
 </template>
