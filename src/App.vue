@@ -2,6 +2,7 @@
 import AppTopbar from '@/components/AppTopbar.vue'
 import { RouterView } from 'vue-router'
 import { Toaster } from './components/ui/sonner'
+
 </script>
 
 <template>

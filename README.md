@@ -1,16 +1,29 @@
-# Tauri + Vue + TypeScript
+# Liner
+Liner is a Open-Source, user-friendly and local markdown editor.
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+![Preview](./public/preview.png)
 
-## Recommended IDE Setup
+## Tips
+At present, it is a fast iteration stage, which does not guarantee the perfection and applicability of the function. We do not provide the build version for the time being. We welcome to participate in the development and contribution.
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+The emergence of Liner, in order to replace Typora, will plan to provide all Typora functions and more personalized functions. 
 
-## Type Support For `.vue` Imports in TS
+## Development
+Liner is built with Tauri 2, Vue 3 and TypeScript.
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+development environment:
+- Rust latest
+- Node latest Lts
+- Pnpm latest
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
+You can follow the steps below:
+1. Install Rust 
+2. Clone the repository
+3. Install the dependencies
+4. Build the project
+5. Run the project
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+## License
+Liner is open-source software licensed under the GPLv3 License.
+
+

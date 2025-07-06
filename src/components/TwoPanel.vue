@@ -1,14 +1,13 @@
 <template>
     <div class="flex flex-col w-full h-full">
         <div class="flex w-full h-full overflow-hidden relative">
-            <!-- 编辑器 -->
+            <!-- 编辑区 -->
             <div class="w-1/2 border-r border-[var(--color-border)] overflow-hidden h-full relative">
                 <textarea ref="editorRef" v-model="markdownContent"
                     class="w-full h-full p-4 bg-[var(--color-card)] text-[var(--color-foreground)] focus:outline-none resize-none"
                     placeholder="Type your markdown here..." @scroll="syncScroll"
                     style="font-family: 'MapleMonoNL', 'Noto Sans CJK', 'Source Han Sans', 'Microsoft YaHei', 'PingFang SC', monospace;"></textarea>
             </div>
-
             <!-- 预览区 -->
             <div class="w-1/2 overflow-hidden h-full relative">
                 <div ref="previewContainerRef" class="w-full h-full overflow-auto" @scroll="syncEditorScroll">
@@ -21,30 +20,46 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted, nextTick, watch } from 'vue';
-import MarkdownIt from 'markdown-it';
+import { ref, onMounted, nextTick, watch } from 'vue';
+import MarkdownItAsync from 'markdown-it-async';
 
 const editorRef = ref<HTMLTextAreaElement | null>(null);
 const previewContainerRef = ref<HTMLDivElement | null>(null);
 const previewContentRef = ref<HTMLDivElement | null>(null);
 const markdownContent = ref('');
+const renderedContent = ref('');
 const isScrolling = ref(false);
 
 // 初始化Markdown解析器
-const md = new MarkdownIt({
+const md = MarkdownItAsync({
+    warnOnSyncRender: true,
     html: true,
     linkify: true,
     typographer: true,
-    breaks: true // 启用直接换行
-});
+    async highlight(code, lang) {
+        const { codeToHtml } = await import('shiki')
+        const { transformerMetaHighlight } = await import('@shikijs/transformers')
 
-// 计算属性：实时渲染Markdown内容
-const renderedContent = computed(() => {
-    return md.render(markdownContent.value);
-});
+        const linesCount = code.split('\n').length
+        const rawMeta = linesCount > 0 ? `1-${linesCount}` : ''
+
+        return await codeToHtml(code, {
+            lang,
+            theme: 'vitesse-light',
+            meta: {
+                __raw: rawMeta
+            },
+            transformers: [
+                transformerMetaHighlight({
+                    className: 'line-number'
+                })
+            ]
+        })
+    }
+})
 
 // 初始内容
-onMounted(() => {
+onMounted(async () => {
     markdownContent.value = `# Welcome to Markdown Editor
   
 This is a **live preview** markdown editor with scroll synchronization.
@@ -111,7 +126,7 @@ More content at the bottom...`;
 });
 
 // 监听内容变化，保持滚动位置
-watch(markdownContent, () => {
+watch(markdownContent, async (newContent) => {
     nextTick(() => {
         // 内容变化后保持相对滚动位置
         if (!isScrolling.value && editorRef.value && previewContainerRef.value && previewContentRef.value) {
@@ -122,7 +137,14 @@ watch(markdownContent, () => {
             previewContainerRef.value.scrollTop = ratio * previewHeight;
         }
     });
-});
+
+    try {
+        const html = await md.renderAsync(newContent);
+        renderedContent.value = html; // 赋值渲染后的HTML
+    } catch (err) {
+        console.error(err);
+    }
+}, { immediate: true }); // 初始化时立即执行一次
 
 // 编辑区滚动时同步预览区
 const syncScroll = () => {
@@ -179,85 +201,130 @@ const syncEditorScroll = () => {
 };
 </script>
 
-<style scoped>
+<style scoped type="text/tailwindcss">
 /* 引入Tailwind工具类 */
 @reference "tailwindcss";
 
 /* 为渲染的Markdown添加样式 */
-.markdown-preview ::v-deep h1 {
-    @apply text-2xl font-bold mb-4 mt-6;
+.markdown-preview :deep(h1) {
+    @apply text-4xl font-bold mb-4 mt-6 border-b border-[var(--color-border)];
     color: var(--color-foreground);
 }
 
-.markdown-preview ::v-deep h2 {
-    @apply text-xl font-bold mb-3 mt-5;
+.markdown-preview :deep(h2) {
+    @apply text-3xl font-bold mb-3 mt-5 border-b border-[var(--color-border)];
     color: var(--color-foreground);
 }
 
-.markdown-preview ::v-deep h3 {
+.markdown-preview :deep(h3) {
+    @apply text-2xl font-bold mb-2 mt-4;
+    color: var(--color-foreground);
+}
+
+.markdown-preview :deep(h4) {
+    @apply text-xl font-bold mb-2 mt-4;
+    color: var(--color-foreground);
+}
+
+.markdown-preview :deep(h5) {
     @apply text-lg font-bold mb-2 mt-4;
     color: var(--color-foreground);
 }
 
-.markdown-preview ::v-deep h4 {
+.markdown-preview :deep(h6) {
     @apply text-base font-bold mb-2 mt-4;
     color: var(--color-foreground);
 }
 
-.markdown-preview ::v-deep h5 {
-    @apply text-sm font-bold mb-2 mt-4;
-    color: var(--color-foreground);
-}
-
-.markdown-preview ::v-deep h6 {
-    @apply text-sm font-bold mb-2 mt-4;
-    color: var(--color-foreground);
-}
-
-
-.markdown-preview ::v-deep p {
+.markdown-preview :deep(p) {
     @apply mb-4;
     color: var(--color-foreground);
 }
 
-.markdown-preview ::v-deep ul,
-.markdown-preview ::v-deep ol {
+.markdown-preview :deep(ul, ol) {
     @apply mb-4 ml-6;
 }
 
-.markdown-preview ::v-deep ul {
+.markdown-preview :deep(ul) {
     @apply list-disc;
 }
 
-.markdown-preview ::v-deep ol {
-    @apply list-decimal;
+.markdown-preview :deep(ol) {
+    @apply list-decimal ml-6;
 }
 
-.markdown-preview ::v-deep li {
+.markdown-preview :deep(li) {
     @apply mb-2;
     color: var(--color-foreground);
 }
 
-.markdown-preview ::v-deep a {
+.markdown-preview :deep(a) {
     @apply hover:underline transition-colors duration-200;
     color: var(--color-primary);
 }
 
-.markdown-preview ::v-deep code {
-    @apply bg-[var(--color-muted)] px-1 py-0.5 rounded text-sm font-mono;
+/* 代码块容器 */
+.markdown-preview :deep(pre) {
+    @apply bg-[var(--color-muted)] rounded-lg mb-6 overflow-hidden border border-[var(--color-border)] p-2;
+    position: relative;
+    /* 为行号容器提供定位参考 */
 }
 
-.markdown-preview ::v-deep pre {
-    @apply bg-[var(--color-muted)] p-4 rounded mb-4 overflow-x-auto text-sm;
+.markdown-preview :deep(code) {
+    counter-reset: step;
+    counter-increment: step 0;
 }
 
-.markdown-preview ::v-deep blockquote {
-    @apply border-l-4 pl-4 italic;
-    border-color: var(--color-border);
-    color: var(--color-muted-foreground);
+/* 高亮行（包含行号） */
+.markdown-preview :deep(.line) {
+    @apply pl-1;
+    /* 留出左侧空间显示行号 */
 }
 
-.markdown-preview ::v-deep img {
+/* 行号样式 */
+.markdown-preview :deep(.line::before) {
+    content: counter(step);
+    counter-increment: step;
+    /* 使用data-line属性作为行号内容 */
+    @apply w-8 text-right pr-2 py-0.5 text-[var(--color-muted-foreground)] select-none;
+    /* 行号与代码间的分隔线 */
+}
+
+/* 代码内容区域 */
+.markdown-preview :deep(pre code) {
+    @apply block w-full font-[MapleMonoNL] text-sm;
+}
+
+/* 单行代码样式（与代码块区分） */
+.markdown-preview :deep(code:not(pre code)) {
+    @apply bg-[var(--color-muted)] px-1.5 py-0.5 rounded text-sm font-[MapleMonoNL];
+}
+
+.markdown-preview :deep(blockquote) {
+    @apply border-l-4 pl-4 italic border-[var(--color-border)] text-[var(--color-muted-foreground)];
+}
+
+.markdown-preview :deep(img) {
     @apply max-w-full h-auto rounded my-4 shadow-md;
+}
+
+.markdown-preview :deep(table) {
+    @apply w-full border border-[var(--color-border)] rounded border-separate;
+}
+
+.markdown-preview :deep(tr) {
+    @apply border-b transition-colors;
+}
+
+.markdown-preview :deep(th) {
+    @apply text-left text-sm px-4 py-2 border-b bg-[var(--color-muted)];
+}
+
+.markdown-preview :deep(td) {
+    @apply px-4 py-2 text-sm border-b;
+}
+
+.markdown-preview :deep(tr:last-child td) {
+    @apply border-b-0;
 }
 </style>

@@ -39,10 +39,11 @@ const activeTeam = ref(props.teams[0])
         <SidebarMenuItem class="flex flex-row mb-2">
             <div class="flex flex-row gap-1">
                 <span class="group rounded-2xl w-3 h-3 bg-[#ff5b52] flex items-center justify-center cursor-pointer">
-                    <X class="size-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                    <X class="size-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 dark:text-black" />
                 </span>
                 <span class="group rounded-2xl w-3 h-3 bg-[#e6c02a] flex items-center justify-center cursor-pointer">
-                    <Minus class="size-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                    <Minus class="size-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 dark:text-black" />
+
                 </span>
                 <span class="group rounded-2xl w-3 h-3 bg-[#53c22b] flex items-center justify-center cursor-pointer">
                     <svg t="1751712608216" class=" opacity-0 group-hover:opacity-100 transition-opacity duration-200"
@@ -96,7 +97,7 @@ const activeTeam = ref(props.teams[0])
                         </div>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
-                <form class="mt-2 w-full">
+                <!-- <form class="mt-2 w-full">
                     <SidebarGroup class="py-0">
                         <SidebarGroupContent class="relative">
                             <Label for="search" class="sr-only">
@@ -107,7 +108,7 @@ const activeTeam = ref(props.teams[0])
                                 class="pointer-events-none absolute left-2 top-1/2 size-4 -translate-y-1/2 select-none opacity-50" />
                         </SidebarGroupContent>
                     </SidebarGroup>
-                </form>
+                </form> -->
             </DropdownMenu>
 
         </SidebarMenuItem>

@@ -173,7 +173,7 @@ const props = withDefaults(defineProps<SidebarProps>(), {
             <NavMain :items="data.navMain" />
         </SidebarContent>
         <SidebarFooter>
-            <div class="flex flex-row justify-center">
+            <div class="flex flex-row justify-center items-center">
                 <img :src="logo" alt="logo" class="size-15">
                 <h1 class="text-xl font-bold font-['MapleMonoNL']">Liner.</h1>
             </div>

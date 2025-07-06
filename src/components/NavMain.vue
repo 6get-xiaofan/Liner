@@ -34,8 +34,8 @@ defineProps<{
 
 <template>
 
-    <SidebarGroup class="pt-0">
-        <Tabs default-value="files" class="w-full">
+    <SidebarGroup class="pt-0 overflow-hidden">
+        <Tabs default-value="files" class="w-full overflow-hidden">
             <TabsList class="flex flex-row w-full">
                 <TabsTrigger value="files">
                     Files
@@ -44,7 +44,7 @@ defineProps<{
                     Outline
                 </TabsTrigger>
             </TabsList>
-            <TabsContent value="files">
+            <TabsContent value="files" class="overflow-auto">
                 <SidebarMenu>
                     <Collapsible v-for="item in items" :key="item.title" as-child :default-open="item.isActive"
                         class="group/collapsible">

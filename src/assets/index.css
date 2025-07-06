@@ -121,3 +121,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  ::-webkit-scrollbar {
+    @apply w-2 opacity-0;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent transition-colors duration-300;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-600 rounded-full border-2 border-transparent bg-clip-content;
+  }
+}
